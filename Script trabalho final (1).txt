@@ -1,0 +1,276 @@
+
+CREATE TABLE Fornecedor (
+    ID_Forn   NUMERIC(2)  NULL,
+    NomeForn  VARCHAR(30) NULL,
+    Endereco  VARCHAR(50) NULL,
+    Documento VARCHAR(50) NULL,
+    Telefone  NUMERIC(15) NULL,
+    CONSTRAINT pk_forn PRIMARY KEY (ID_Forn),
+    CONSTRAINT uk_nome_forn UNIQUE (NomeForn)
+);
+
+CREATE TABLE CentroDistribuicao (
+    ID_CentroDistri NUMERIC(4)  NULL,
+    NomeCD          VARCHAR(30) NULL,
+    Endereco        VARCHAR(50) NULL,
+    Telefone        NUMERIC(15) NULL,
+    CONSTRAINT pk_cd PRIMARY KEY (ID_CentroDistri)
+);
+
+CREATE TABLE Funcionario (
+    ID_Func         NUMERIC(4)   NULL,
+    NomeFunc        VARCHAR(30)  NULL,
+    Endereco        VARCHAR(50)  NULL,
+    DataNasc        DATE         NULL,
+    CPF             NUMERIC(11)  NULL,
+    Salario         NUMERIC(8,2) NULL,
+    Cargo           VARCHAR(50)  NULL,
+    Setor           VARCHAR(50)  NULL,
+    Admissao        DATE         NULL,
+    Telefone        NUMERIC(15)  NULL,
+    ID_CentroDistri NUMERIC(2)   NULL,
+    CONSTRAINT pk_func PRIMARY KEY (ID_Func)
+);
+
+CREATE TABLE Veiculo (
+    Placa            VARCHAR(30) NULL,
+    Revisao          DATE        NULL,
+    ID_Func          NUMERIC(4)  NULL,
+    ID_CentroDistri  NUMERIC(2)  NULL,
+    CONSTRAINT pk_placa PRIMARY KEY (Placa)
+);
+
+CREATE TABLE Produto (
+    ID_Produto      NUMERIC(4)  NULL,
+    Nome            VARCHAR(30) NULL,
+    Peso            DECIMAL(3,2)  NULL,
+    CONSTRAINT pk_produto PRIMARY KEY (ID_Produto)
+);
+
+CREATE TABLE Pedido (
+    ID_Pedido     NUMERIC(10)  NULL,
+    DataPed       DATE         NULL,
+    Entrega       DATE         NULL,
+    NF            VARCHAR(200) NULL,
+    Codigo_cupom  NUMERIC(10)  NULL,
+	ID_Cliente    NUMERIC(10)  NULL,
+	Placa         VARCHAR(30)  NULL,
+    CONSTRAINT pk_pedido PRIMARY KEY (ID_Pedido)
+);
+
+CREATE TABLE Cupom (
+    Codigo_cupom  NUMERIC(10) NULL,
+    Valor         NUMERIC(10) NULL,
+    Status        VARCHAR(10) NULL,
+    CONSTRAINT pk_cupom PRIMARY KEY (Codigo_cupom)
+);
+
+CREATE TABLE Cliente (
+    ID_Cliente     NUMERIC(10) NULL,
+    Endereco       VARCHAR(50) NULL,
+    Telefone       NUMERIC(15) NULL,
+    CONSTRAINT pk_cliente PRIMARY KEY (ID_cliente)
+);
+
+CREATE TABLE PJ (
+	ID_Cliente NUMERIC(10) NULL,
+    RazaoSocial VARCHAR(50) NULL,
+    CNPJ        NUMERIC(14) NULL,
+    CONSTRAINT pk_cliente_pj PRIMARY KEY (ID_Cliente)
+);
+
+CREATE TABLE PF (
+	ID_Cliente NUMERIC(10) NULL,
+    Nome       VARCHAR(50) NULL,
+    CPF        NUMERIC(11) NULL,
+    CONSTRAINT pk_cliente_pf PRIMARY KEY (ID_Cliente)
+);
+
+CREATE TABLE Fornece (
+    ID_Forn          NUMERIC(4)   NULL,
+    ID_CentroDistri  NUMERIC(4)   NULL,
+	ID_Produto       NUMERIC(4)   NULL,
+    DataForn         DATE         NULL,
+	Quantidade       NUMERIC(50)  NULL,
+    Preco            NUMERIC(50)  NULL,
+    NF               VARCHAR(200) NULL,
+    CONSTRAINT pk_fornece PRIMARY KEY (ID_CentroDistri, ID_Forn, ID_Produto)
+);
+
+CREATE TABLE Contem (
+	ID_Pedido        NUMERIC(4)   NULL,
+	ID_Produto       NUMERIC(4)   NULL,
+    DataCompra       DATE         NULL,
+	Quantidade       NUMERIC(50)  NULL,
+    Preco            NUMERIC(50)  NULL,
+    CONSTRAINT pk_for PRIMARY KEY (ID_Pedido, ID_Produto)
+);
+INSERT INTO Fornecedor
+VALUES (1,'Joao Da Batata','R. da Batata, 175',11111111111112,1345768);
+INSERT INTO Fornecedor
+VALUES (2,'Frank Da Cebola','R. da Cebola, 22',22222222222223,9681541);
+INSERT INTO Fornecedor
+VALUES (3,'Alfacelice','R. da Alface, 11',33333333333334,0782735);
+INSERT INTO Fornecedor
+VALUES (4,'Gabrial da Goiabada','R. da Goiabada, 11',44444444444445,0782735);
+
+
+INSERT INTO CentroDistribuicao
+VALUES (1,'Batateiro','R. da Batata, 175',18573625);
+INSERT INTO CentroDistribuicao
+VALUES (2,'Cebolada','R. da Cebola, 22',98736591);
+INSERT INTO CentroDistribuicao
+VALUES (3,'Alfacinha','R. da Alface, 11',093765625);
+INSERT INTO CentroDistribuicao
+VALUES (4,'Goiabada','R. da Alface, 11',72847513);
+
+INSERT INTO Funcionario
+VALUES (1,'Joao Silva','R. Guaicui, 175','1955/02/01',11111111111,500,'Engenheiro','Produção', '2022/02/01', 123123123, 1);
+INSERT INTO Funcionario
+VALUES (2,'Frank Santos','R. Gentios, 22','1966/02/02',22222222222,1000,'Motorista','Entrega', '2021/02/01', 234234234, 1);
+INSERT INTO Funcionario
+VALUES (3,'Alice Pereira','R. Curitiba, 11','1970/05/15',33333333333,700,'Estagiário','Produção', '2018/02/11', 345345345, 2);
+INSERT INTO Funcionario
+VALUES (4,'Junia Mendes','R. Espirito Santos, 123','1976/07/06',44444444444,1200,'Motorista','Entrega', '2021/07/03', 456456456, 2);
+INSERT INTO Funcionario
+VALUES (5,'Jose Tavares','R. Irai, 153','1975/10/07',55555555555,1500,'Supervisor','Produção', '2022/08/11', 567567567, 3);
+INSERT INTO Funcionario
+VALUES (6,'Luciana Santos','R. Irai, 175','1960/10/07',66666666666,1000,'Motorista','Entrega', '2020/06/01', 678678678, 3);
+INSERT INTO Funcionario
+VALUES (7,'Maria Ramos','R. C. Linhares, 10','1965/11/01',77777777777,1000,'Desenvolvedor','Tecnologia', '2017/12/01', 789789789, 4);
+INSERT INTO Funcionario
+VALUES (8,'Jaime Mendes','R. Bahia, 111','1960/11/25',88888888888,1000,'Motorista','Entrega', '2022/04/07', 901901901, 4);
+INSERT INTO Funcionario
+VALUES (9,'Jaime Mendes','R. Bahia, 111','1953/09/16',88888888888,1000,'Motorista','Entrega', '2021/05/08', 890890890, 4);
+
+INSERT INTO Veiculo
+VALUES ('SPA-123','2022/11/01',2,1);
+INSERT INTO Veiculo
+VALUES ('RBD-563','2022/10/01',4,2);
+INSERT INTO Veiculo
+VALUES ('LGPD-467','2022/05/01',6,3);
+INSERT INTO Veiculo
+VALUES ('BDD-678','2022/11/01',8,4);
+INSERT INTO Veiculo
+VALUES ('BAO-106','2022/02/01',9,4);
+
+INSERT INTO Produto
+VALUES (1,'Batata',0.4);
+INSERT INTO Produto
+VALUES (2,'Cebola',0.2);
+INSERT INTO Produto
+VALUES (3,'Alface',0.25);
+INSERT INTO Produto
+VALUES (4,'Goiaba',0.3);
+
+INSERT INTO Pedido
+VALUES (1,'2023/03/07','2023/03/08','14256ahbmcv124351c141',null,1,'SPA-123');
+INSERT INTO Pedido
+VALUES (2,'2023/03/12','2023/03/14','142561c1wqafqw41a',1234,2,'LGPD-467');
+INSERT INTO Pedido
+VALUES (3,'2023/11/08','2023/11/09','17120safvq45431c141',1234,3,'BAO-106');
+INSERT INTO Pedido
+VALUES (4,'2023/04/15','2023/05/17','5832256ah325bmcv124351c141',5678,4,'BAO-106');
+
+INSERT INTO Cupom
+VALUES (1234,10,'Ativo');
+INSERT INTO Cupom
+VALUES (5678,25,'Ativo');
+INSERT INTO Cupom
+VALUES (91012,50,'Desativado');
+INSERT INTO Cupom
+VALUES (1111,12,'Desativado');
+
+INSERT INTO Cliente
+VALUES (1,'R. Fui e Voltei, 175',10059386);
+INSERT INTO Cliente
+VALUES (2,'R. dos que não foram, 26',19385718);
+INSERT INTO Cliente
+VALUES (3,'R. da rotatoria que contorna, 2',19850276);
+INSERT INTO Cliente
+VALUES (4,'R. sem saída, 198',19685726);
+
+INSERT INTO PJ
+VALUES (1,'Ouro Cacau',76785436572341);
+INSERT INTO PJ
+VALUES (2,'Frexco Alimentos LTDA',93867401923458);
+
+INSERT INTO PF
+VALUES (3,'Piruá Andrade',18475638291);
+INSERT INTO PF
+VALUES (4,'Mururu Alves Bento',18593029567);
+
+INSERT INTO Contem
+VALUES (1,1,'2023/12/13', 10, 200);
+INSERT INTO Contem
+VALUES (1,4,'2023/12/13', 5, 50);
+INSERT INTO Contem
+VALUES (2,1,'2023/02/10', 3, 45);
+INSERT INTO Contem
+VALUES (2,2,'2023/02/10', 5, 50);
+INSERT INTO Contem
+VALUES (2,3,'2023/02/10', 20, 80);
+INSERT INTO Contem
+VALUES (2,4,'2023/02/10', 25, 300);
+INSERT INTO Contem
+VALUES (3,1,'2023/01/05', 2, 23);
+INSERT INTO Contem
+VALUES (3,3,'2023/01/05', 5, 30);
+INSERT INTO Contem
+VALUES (3,4,'2023/01/05', 7, 46);
+INSERT INTO Contem
+VALUES (4,4,'2023/01/05', 100, 400);
+
+INSERT INTO Fornece
+VALUES (1,1,1,'2023/01/05', 200, 400,'earfgha4gh4tg');
+INSERT INTO Fornece
+VALUES (1,2,1,'2023/01/07', 800, 1000,'34ty346abvearg');
+INSERT INTO Fornece
+VALUES (1,3,1,'2023/01/09', 950, 1200,'3w4tgearhgbea5h');
+INSERT INTO Fornece
+VALUES (1,4,1,'2023/01/15', 1200, 2000,'e54yhgwerag34g');
+INSERT INTO Fornece
+VALUES (2,1,2,'2023/01/25', 450, 500,'bv354h43bw4ea5hg');
+INSERT INTO Fornece
+VALUES (2,2,2,'2023/01/05', 375, 400,'v34645whbeb5a5h4');
+INSERT INTO Fornece
+VALUES (2,3,2,'2023/01/05', 825, 1100,'v54wyhgq45gas5ehgh');
+INSERT INTO Fornece
+VALUES (2,4,2,'2023/01/05', 900, 1150,'v54tyg45g456wgb54');
+INSERT INTO Fornece
+VALUES (3,1,3,'2023/01/05', 1500, 2500,'456t543tgw4bw5');
+INSERT INTO Fornece
+VALUES (3,2,3,'2023/01/05', 200, 320,'f43qgfqgq5hq45h');
+INSERT INTO Fornece
+VALUES (3,3,3,'2023/01/05', 325, 500,'v453t34qtg4gqreag');
+INSERT INTO Fornece
+VALUES (3,4,3,'2023/01/05', 860, 950,'345342qt6erber');
+INSERT INTO Fornece
+VALUES (4,1,4,'2023/01/05', 150, 325,'v4q3fg4fgeahgea5');
+INSERT INTO Fornece
+VALUES (4,2,4,'2023/01/05', 560, 700,'f43tgq43gqerg45wg');
+INSERT INTO Fornece
+VALUES (4,3,4,'2023/01/05', 670, 800,'vregvearga34ga');
+INSERT INTO Fornece
+VALUES (4,4,4,'2023/01/05', 400, 650,'vreqg4q3gqe4g');
+
+ALTER TABLE Funcionario
+ADD CONSTRAINT fk_func_cd FOREIGN KEY (ID_CentroDistri) REFERENCES CentroDistribuicao (ID_CentroDistri) ON DELETE RESTRICT;
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT fk_veiculo_cd FOREIGN KEY (ID_CentroDistri) REFERENCES CentroDistribuicao (ID_CentroDistri) ON DELETE SET NULL;
+ALTER TABLE Veiculo
+ADD CONSTRAINT fk_veiculo_func FOREIGN KEY (ID_Func) REFERENCES Funcionario (ID_Func) ON DELETE SET NULL;
+
+ALTER TABLE Pedido
+ADD CONSTRAINT fk_pedido_cupom FOREIGN KEY (Codigo_cupom) REFERENCES Cupom (Codigo_cupom) ON DELETE RESTRICT;
+ALTER TABLE Pedido
+ADD CONSTRAINT fk_pedido_veiculo FOREIGN KEY (Placa) REFERENCES Veiculo (Placa) ON DELETE RESTRICT;
+ALTER TABLE Pedido
+ADD CONSTRAINT fk_pedido_cliente FOREIGN KEY (ID_Cliente) REFERENCES Cliente (ID_Cliente) ON DELETE RESTRICT;
+
+ALTER TABLE PJ
+ADD CONSTRAINT fk_pj_cliente FOREIGN KEY (ID_Cliente) REFERENCES Cliente (ID_Cliente) ON DELETE RESTRICT;
+
+ALTER TABLE PF
+ADD CONSTRAINT fk_pf_cliente FOREIGN KEY (ID_Cliente) REFERENCES Cliente (ID_Cliente) ON DELETE RESTRICT;
